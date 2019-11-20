@@ -27,6 +27,10 @@ public class ATM {
 			// cleanup any resources (i.e., the Scanner) and exit
 		}
     }
+
+    public void startup() {
+        System.out.println("Welcome to the AIT ATM!");
+    }
     
     /*
      * Application execution begins here.
