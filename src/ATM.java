@@ -30,6 +30,15 @@ public class ATM {
 
     public void startup() {
         System.out.println("Welcome to the AIT ATM!");
+        
+        System.out.println("Account No.: ");
+        long accountNo = in.nextLong();
+        
+        System.out.println("PIN        :");
+        int pin = in.nextInt();
+        
+        if (accountNo == acgit)
+        
     }
     
     /*
