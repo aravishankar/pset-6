@@ -40,27 +40,54 @@ public class ATM {
         System.out.print("PIN        : ");
         int pin = in.nextInt();
         
-        if (accountNo == activeAccount.getAccountNo() && pin == activeAccount.getPin()) {
+        if (isValidLogin(accountNo, pin)) {
         	System.out.println("\nHello, again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
         	
-        	System.out.println("[1] View balance");
-        	System.out.println("[2] Deposit money");
-        	System.out.println("[3] Withdraw money");
-        	
-        	int selection = in.nextInt();
-        	switch (selection) {
-        	
-        		case 1: //view balance
-        		case 2: //deposit money
-        		case 3: //withdraw money
-        		default: //invalid selection
-        		
+        	boolean validLogin = true;
+        	while (validLogin) {
+        		switch (getSelection()) {
+		        	case 1: showBalance(); break;
+		        	case 2: deposit(); break;
+		        	case 3: withdraw(); break;
+		        	default: System.out.println("\nInvalid selection.\n"); break;
+	        	}
         	}
-        
         } else {
         	System.out.println("\nInvalid account number and/or PIN.\n");
         }
         
+    }
+    
+    public boolean isValidLogin(long accountNo, int pin) {
+    	return accountNo == activeAccount.getAccountNo() && pin == activeAccount.getPin();
+    }
+    
+    public int getSelection() {
+    	System.out.println("[1] View balance");
+    	System.out.println("[2] Deposit money");
+    	System.out.println("[3] Withdraw money");
+    	
+    	return in.nextInt();
+    }
+    
+    public void showBalance() {
+		System.out.println("\nCurrent balance: " + activeAccount.getBalance());
+    }
+    
+    public void deposit() {
+    	System.out.println("\nEnter amount: ");
+		double depositAmt = in.nextDouble();
+		
+		activeAccount.deposit(depositAmt);
+		System.out.println();
+    }
+    
+    public void withdraw() {
+    	System.out.println("\nEnter amount: ");
+		double withdrawAmt = in.nextDouble();
+		
+		activeAccount.withdraw(withdrawAmt);
+		System.out.println();
     }
     
     /*
