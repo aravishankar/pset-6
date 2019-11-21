@@ -46,6 +46,16 @@ public class ATM {
         	System.out.println("[1] View balance");
         	System.out.println("[2] Deposit money");
         	System.out.println("[3] Withdraw money");
+        	
+        	int selection = in.nextInt();
+        	switch (selection) {
+        	
+        		case 1: //view balance
+        		case 2: //deposit money
+        		case 3: //withdraw money
+        		default: //invalid selection
+        		
+        	}
         
         } else {
         	System.out.println("\nInvalid account number and/or PIN.\n");
