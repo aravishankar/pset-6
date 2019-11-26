@@ -116,9 +116,16 @@ public class ATM {
         System.out.println("[1] View balance");
         System.out.println("[2] Deposit money");
         System.out.println("[3] Withdraw money");
-        System.out.println("[4] Logout");
+        System.out.println("[4] Withdraw money");
+        System.out.println("[5] Logout");
         
-        return in.nextInt();
+        if (in.hasNextInt()) {
+        	return in.nextInt();
+        } else {
+            in.nextLine();
+            return 0;
+        }
+        
     }
     
     public void showBalance() {
@@ -171,7 +178,7 @@ public class ATM {
                 System.out.println("\nTransfer rejected. Insufficient funds.\n");
             } else if (withdrawStatus == ATM.SUCCESS) {
             	int depositStatus = transferAccount.deposit(amount);
-                if (depositStatus == ATM.OVERFLOW) {
+                if (depositStatus == ATM.OVERFILL) {
                     System.out.println("\nTransfer rejected. Amount would cause destination balance to exceed $999,999,999,999.99.\n");
                 } else if (depositStatus == ATM.SUCCESS) {
                 	System.out.println("\nTransfer accepted.\n");
