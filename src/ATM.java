@@ -39,98 +39,32 @@ public class ATM {
     	
     	long accountNo;
     	int pin;
-    	boolean accountCreationPhase = false;
-    	
         System.out.println("Welcome to the AIT ATM!\n");
-        
+     
         while (true) {
             System.out.print("Account No.: ");
-            String accountNoString = in.nextLine();
-            
-            if (accountNoString.charAt(0) == '+') {
-                accountNo = 0;
-                accountCreationPhase = true;
-                int pin;
-            	
-                System.out.print("\nFirst Name: ");
-            	String fName = 	in.nextLine();
-
-            		System.out.print("Last Name: ");
-                	String lName = in.nextLine();
-
-                		System.out.print("Pin: ");
-                       	if (in.hasNextInt()) {
-                    		pin = in.nextInt();
-                    		in.nextLine();
-
-                    		if (pin >= 1000 && pin <= 9999) {
-                    			newUser = new User(fName, lName);
-                            	BankAccount newAccount = bank.createAccount(pin, newUser);
-                                System.out.println(newAccount.getAccountNo() + ".");
-                            	bank.update(newAccount);
-                            	bank.save();
-                    		} else {
-                    		}
-                        } else {
-                        	in.nextLine();
-                        }
-                	} else {
-                	}
-            	} else {
-            	}                
-            } else if (accountNoString.matches("[0-9]+")) {
-                accountNo = Long.parseLong(accountNoString);
-            } else if (accountNoString.matches("-")) {
-                accountNo = 0;
-            } else if (!(accountNoString.matches("[0-9]+")) && !(accountNoString.contains("-")) ) {
-                accountNo = 0;
-            } else if (accountNoString.isEmpty()) {
-                accountNo = 0;
-            } else if (Long.parseLong(accountNoString) == -1) {
-                accountNo = -1;
-            } else {
-                accountNo = 0;
-            }
-            
-            if (!accountCreationPhase) {
-            	
-            	System.out.print("PIN        : ");
-                String pinString = in.nextLine();
-                if (pinString.isEmpty()) {
-                    pin = 0;
-                } else if (pinString.matches("[0-9]+")) {
-                    pin = Integer.parseInt(pinString);
-                } else if (pinString.matches("-")) {
-                    pin = 0;
-                } else if (!(pinString.matches("[0-9]+")) && !(pinString.contains("-")) ) {
-                    pin = 0;
-                } else if (Integer.parseInt(pinString) == -1) {
-                    pin = -1;
-                } else {
-                    pin = 0;
-                }
-            	
-            	if (isValidLogin(accountNo, pin)) {
-                    System.out.println("\nHello, again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
-                    
-                    boolean validLogin = true;
-                    while (validLogin) {
-                        switch (getSelection()) {
-                            case VIEW: showBalance(); break;
-                            case DEPOSIT: deposit(); break;
-                            case WITHDRAW: withdraw(); break;
-                            case TRANSFER: transfer(); break;
-                            case LOGOUT: validLogin = false; break;
-                            default: System.out.println("\nInvalid selection.\n"); break;
-                        }
-                    }
-                } else {
-                    if (accountNo == -1 && pin == -1) {
-                        shutdown();
-                    } else {
-                        System.out.println("\nInvalid account number and/or PIN.\n");
-                    }
-                }
+            String accountNumberPlaceHolder = in.nextLine();
+            if(accountNumberPlaceHolder.isEmpty()) {
+            	accountNo = 0;
+            	pin = getPin();
+            	login(accountNo, pin);
+            }else if(accountNumberPlaceHolder.strip().equals("+")){
+            	accountNo = 0;
+            	createAccount();
+            }else if(isAccountNumber(accountNumberPlaceHolder)) {
+            	accountNo = Long.valueOf(accountNumberPlaceHolder);
+            	pin = getPin();
+            	login(accountNo, pin);
+            }else if(accountNumberPlaceHolder.equals("-1")){
+            	accountNo = -1;
+            	pin = getPin();
+            	login(accountNo, pin);             
+            }else {
+            	accountNo = 0;
+            	pin = getPin();
+            	login(accountNo, pin);
+            }                 	
+        }
             }
         }
     }
