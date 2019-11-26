@@ -218,11 +218,9 @@ public class ATM {
         System.out.print("\nFirst Name: ");
     	String fName = 	in.nextLine();
 
-    	if (fName.length() <= FIRST_NAME_WIDTH && fName.length() > 0) {
     		System.out.print("Last Name: ");
         	String lName = in.nextLine();
 
-        	if (lName.length() <= LAST_NAME_WIDTH && lName.length() > 0) {
         		System.out.print("Pin: ");
                	if (in.hasNextInt()) {
             		pin = in.nextInt();

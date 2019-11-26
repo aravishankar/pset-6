@@ -37,8 +37,6 @@ private static long prevAccountNo = 100000000L;
     public int deposit(double amount) {
         if (amount <= 0) {
             return ATM.INVALID;    
-        } else if (amount + balance > 999999999999.99){
-        	return ATM.OVERFILL;
         } else {
             balance = balance + amount;
         }
