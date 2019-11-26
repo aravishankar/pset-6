@@ -69,6 +69,30 @@ public class ATM {
         }
     }
     
+    public void login(long accountNo, int pin) {
+    	if (isValidLogin(accountNo, pin)) {	
+        	activeAccount = bank.login(accountNo, pin);
+            System.out.println("\nHello, again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
+            boolean validLogin = true;
+            while (validLogin) {
+                switch (getSelection()) {
+                    case VIEW: showBalance(); break;
+                    case DEPOSIT: deposit(); break;
+                    case WITHDRAW: withdraw(); break;
+                    case TRANSFER: transfer(); break;
+                    case LOGOUT: validLogin = false; in.nextLine(); break;
+                    default: System.out.println("\nInvalid selection.\n"); break;
+                }
+            }
+        } else {
+            if (accountNo == -1 && pin == -1) {
+                shutdown();
+            } else {
+                System.out.println("\nInvalid account number and/or PIN.\n");
+            }
+        }
+    }
+    
     public boolean isAccountNumber(String possibleNumber) {
     	boolean isNumber = true;
     	for (int i = 0; i < possibleNumber.length(); i++ ) {
