@@ -1,13 +1,17 @@
+import java.text.NumberFormat;
+
 public class BankAccount {
         
+private static long prevAccountNo = 100000000L;
+    
     private int pin;
     private long accountNo;
     private double balance;
     private User accountHolder;
 
-    public BankAccount(int pin, long accountNo, User accountHolder) {
+    public BankAccount(int pin, User accountHolder) {
         this.pin = pin;
-        this.accountNo = accountNo;
+        this.accountNo = ++BankAccount.prevAccountNo;
         this.balance = 0.0;
         this.accountHolder = accountHolder;
     }
@@ -20,8 +24,10 @@ public class BankAccount {
         return accountNo;
     }
 
-    public double getBalance() {
-        return balance;
+    public String getBalance() {
+        NumberFormat currency = NumberFormat.getCurrencyInstance();
+        
+        return currency.format(balance);
     }
 
     public User getAccountHolder() {
