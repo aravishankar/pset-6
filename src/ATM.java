@@ -50,7 +50,7 @@ public class ATM {
             if (accountNoString.charAt(0) == '+') {
                 accountNo = 0;
                 accountCreationPhase = true;
-                //createAccount();
+                createAccount();
             } else if (accountNoString.matches("[0-9]+")) {
                 accountNo = Long.parseLong(accountNoString);
             } else if (accountNoString.matches("-")) {
@@ -212,44 +212,44 @@ public class ATM {
         System.exit(0);
     }
     
-//    public void createAccount() {
-//    	int pin;
-//    	
-//        System.out.print("\nFirst Name: ");
-//    	String fName = 	in.nextLine();
-//
-//    	if (fName.length() <= FIRST_NAME_WIDTH && fName.length() > 0) {
-//    		System.out.print("Last Name: ");
-//        	String lName = in.nextLine();
-//
-//        	if (lName.length() <= LAST_NAME_WIDTH && lName.length() > 0) {
-//        		System.out.print("Pin: ");
-//               	if (in.hasNextInt()) {
-//            		pin = in.nextInt();
-//            		in.nextLine();
-//
-//            		if (pin >= 1000 && pin <= 9999) {
-//            			newUser = new User(fName, lName);
-//                    	BankAccount newAccount = bank.createAccount(pin, newUser);
-//                    	System.out.print("\nThank you. Your account number is ");
-//                        System.out.println(newAccount.getAccountNo() + ".");
-//                    	System.out.println("Please login to access your newly created account.");
-//                    	bank.update(newAccount);
-//                    	bank.save();
-//            		} else {
-//            			System.out.println("\nYour pin must be between 1000 and 9999.\n");
-//            		}
-//                } else {
-//                	in.nextLine();
-//                	System.out.println("\nYour pin must be numeric.\n");
-//                }
-//        	} else {
-//        		System.out.println("\nYour last name must be between 1 and 30 characters long.");
-//        	}
-//    	} else {
-//    		System.out.println("\nYour first name must be between 1 and 20 characters long.");
-//    	}
-//    }
+    public void createAccount() {
+    	int pin;
+    	
+        System.out.print("\nFirst Name: ");
+    	String fName = 	in.nextLine();
+
+    	if (fName.length() <= FIRST_NAME_WIDTH && fName.length() > 0) {
+    		System.out.print("Last Name: ");
+        	String lName = in.nextLine();
+
+        	if (lName.length() <= LAST_NAME_WIDTH && lName.length() > 0) {
+        		System.out.print("Pin: ");
+               	if (in.hasNextInt()) {
+            		pin = in.nextInt();
+            		in.nextLine();
+
+            		if (pin >= 1000 && pin <= 9999) {
+            			newUser = new User(fName, lName);
+                    	BankAccount newAccount = bank.createAccount(pin, newUser);
+                    	System.out.print("\nThank you. Your account number is ");
+                        System.out.println(newAccount.getAccountNo() + ".");
+                    	System.out.println("Please login to access your newly created account.");
+                    	bank.update(newAccount);
+                    	bank.save();
+            		} else {
+            			System.out.println("\nYour pin must be between 1000 and 9999.\n");
+            		}
+                } else {
+                	in.nextLine();
+                	System.out.println("\nYour pin must be numeric.\n");
+                }
+        	} else {
+        		System.out.println("\nYour last name must be between 1 and 30 characters long.");
+        	}
+    	} else {
+    		System.out.println("\nYour first name must be between 1 and 20 characters long.");
+    	}
+    }
     
     public static void main(String[] args) {
         ATM atm = new ATM();
