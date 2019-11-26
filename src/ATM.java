@@ -80,6 +80,19 @@ public class ATM {
     	return isNumber;
     }
 
+    public int getPin() {
+    	int pin = 0;
+    	System.out.print("PIN        : ");
+    	String pinPlaceHolder = in.nextLine();
+    	if(pinPlaceHolder.isEmpty()) {
+    		pin = 0;
+    	}else if(isAccountNumber(pinPlaceHolder)){
+    		pin = Integer.valueOf(pinPlaceHolder);
+    	}else if(pinPlaceHolder.equals("-1")) {
+    		pin = -1;
+    	}       	
+        return pin;
+    }
     
     public boolean isValidLogin(long accountNo, int pin) {
         return accountNo == activeAccount.getAccountNo() && pin == activeAccount.getPin();
