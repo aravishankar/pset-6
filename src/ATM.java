@@ -69,6 +69,18 @@ public class ATM {
         }
     }
     
+    public boolean isAccountNumber(String possibleNumber) {
+    	boolean isNumber = true;
+    	for (int i = 0; i < possibleNumber.length(); i++ ) {
+            char char1 = possibleNumber.charAt(i);
+            if (!Character.isDigit(char1)) {
+              isNumber = false;
+            }
+          }
+    	return isNumber;
+    }
+
+    
     public boolean isValidLogin(long accountNo, int pin) {
         return accountNo == activeAccount.getAccountNo() && pin == activeAccount.getPin();
     }
