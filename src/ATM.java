@@ -34,22 +34,21 @@ public class ATM {
     		}
         }
         
-        public long checkAccountNo(String tempAccNo) {
+        public long checkAccountNo(String accountNoString) {
         	
         	long accountNo;
         	
-        	if (tempAccNo.isEmpty()) {
+        	if (accountNoString.isEmpty()) {
                 accountNo = 0;
-            } else if (tempAccNo.charAt(0) == '+') {
+            } else if (accountNoString.charAt(0) == '+') {
                 accountNo = -2;
-//                createAccount = true;
-            } else if (tempAccNo.matches("[0-9]+")) {
-                accountNo = Long.parseLong(tempAccNo);
-            } else if (tempAccNo.matches("-")) {
+            } else if (accountNoString.matches("[0-9]+")) {
+                accountNo = Long.parseLong(accountNoString);
+            } else if (accountNoString.matches("-")) {
                 accountNo = 0;
-            } else if (!(tempAccNo.matches("[0-9]+")) && !(tempAccNo.contains("-")) ) {
+            } else if (!(accountNoString.matches("[0-9]+")) && !(accountNoString.contains("-")) ) {
                 accountNo = 0;
-            } else if (Long.parseLong(tempAccNo) == -1) {
+            } else if (Long.parseLong(accountNoString) == -1) {
                 accountNo = -1;
             } else {
                 accountNo = 0;
@@ -81,49 +80,17 @@ public class ATM {
         public void startup() {
         	long accountNo;
         	int pin;
-//            boolean createAccount = false;
             System.out.println("Welcome to the AIT ATM!");
 
             while (true) {
                 System.out.print("\nAccount No.: ");
-                String tempAccNo = in.nextLine();
+                String accountNoString = in.nextLine();
                 
-//                if (tempAccNo.isEmpty()) {
-//                    accountNo = 0;
-//                } else if (tempAccNo.charAt(0) == '+') {
-//                    accountNo = 0;
-//                    createAccount = true;
-//                } else if (tempAccNo.matches("[0-9]+")) {
-//                    accountNo = Long.parseLong(tempAccNo);
-//                } else if (tempAccNo.matches("-")) {
-//                    accountNo = 0;
-//                } else if (!(tempAccNo.matches("[0-9]+")) && !(tempAccNo.contains("-")) ) {
-//                    accountNo = 0;
-//                } else if (Long.parseLong(tempAccNo) == -1) {
-//                    accountNo = -1;
-//                } else {
-//                    accountNo = 0;
-//                }
-                
-                accountNo = checkAccountNo(tempAccNo);
+                accountNo = checkAccountNo(accountNoString);
 
                 if (accountNo != -2) {
                     System.out.print("PIN        : ");
                     String tempPin = in.nextLine();
-                    
-//                    if (tempPin.isEmpty()) {
-//                        pin = 0;
-//                    } else if (tempPin.matches("[0-9]+")) {
-//                        pin = Integer.parseInt(tempPin);
-//                    } else if (tempPin.matches("-")) {
-//                        pin = 0;
-//                    } else if (!(tempPin.matches("[0-9]+")) && !(tempPin.contains("-")) ) {
-//                        pin = 0;
-//                    } else if (Integer.parseInt(tempPin) == -1) {
-//                        pin = -1;
-//                    } else {
-//                        pin = 0;
-//                    }
 
                     pin = checkPin(tempPin);
                     
@@ -150,7 +117,7 @@ public class ATM {
                     }
                 } else {
                     createAccount();
-            }
+                }
             }
         }
         
@@ -158,18 +125,18 @@ public class ATM {
         	int pin = 0;
         	System.out.print("\nFirst Name: ");
         	String firstName = 	in.nextLine();
-        	if(firstName != null && firstName.length() <= 20 && firstName.length() > 0) {
+        	if (firstName != null && firstName.length() <= 20 && firstName.length() > 0) {
         		System.out.print("Last Name: ");
             	String lastName = in.nextLine();
             	if(lastName != null && lastName.length() <= 30 && lastName.length() > 0){
             		System.out.print("Pin: ");     
             		String pinPlaceHolder = in.nextLine();
-                	if(pinPlaceHolder.isEmpty()) {
+                	if (pinPlaceHolder.isEmpty()) {
                 		pin = 0;
-                	}else if(pinPlaceHolder.matches("[0-9]+")){
+                	} else if (pinPlaceHolder.matches("[0-9]+")){
                 		pin = Integer.valueOf(pinPlaceHolder);
                 	}
-                	if(pin >= 1000 && pin <= 9999) {
+                	if (pin >= 1000 && pin <= 9999) {
                 		newUser = new User(firstName, lastName);
                        	
                        	BankAccount newAccount = bank.createAccount(pin, newUser);
@@ -177,14 +144,14 @@ public class ATM {
                        	System.out.println("Please login to access your newly created account.\n");
                        	bank.update(newAccount);
                        	bank.save();
-               		}else {
-               			System.out.println("\nYou pin must be a numeric value between 1000 and 9999.\n");
+               		} else {
+               			System.out.println("\nPlease ensure your PIN is a numeric value between 1000 and 9999.\n");
                		}         	
-            	}else {
-            		System.out.println("\nYour last name must be between 1 and 30 characters long\n");
+            	} else {
+            		System.out.println("\nPlease ensure your last name is between 1 and 30 characters long\n");
             	}
-        	}else {
-        		System.out.println("\nYour first name must be between 1 and 20 characters long\n");
+        	} else {
+        		System.out.println("\nPlease ensure your first name is between 1 and 20 characters long\n");
         	}
         }
 
@@ -272,28 +239,28 @@ public class ATM {
         }
 
         public void transfer() {
-        	boolean validAccount = true;
+        	boolean isValid = true;
             System.out.print("\nEnter the other account no. : ");
             long secondAccountNo = in.nextLong();
             System.out.print("Enter amount                : ");
             double amount = in.nextDouble();
             if (bank.getAccount(secondAccountNo) == null) {
-            	validAccount = false;
+            	isValid = false;
             }
-            if (validAccount) {
+            if (isValid) {
             	BankAccount transferAccount = bank.getAccount(secondAccountNo);
-            	int withdrawStatus = activeAccount.withdraw(amount);
+            	int status = activeAccount.withdraw(amount);
                 if (activeAccount == transferAccount) {
                     System.out.println("\nTransfer rejected. Destination account matches origin.\n");
-                } else if (withdrawStatus == ATM.INVALID) {
+                } else if (status == ATM.INVALID) {
                     System.out.println("\nTransfer rejected. Amount must be greater than $0.00.\n");
-                } else if (withdrawStatus == ATM.INSUFFICIENT) {
+                } else if (status == ATM.INSUFFICIENT) {
                     System.out.println("\nTransfer rejected. Insufficient funds.\n");
-                } else if (withdrawStatus == ATM.SUCCESS) {
-                	int depositStatus = transferAccount.deposit(amount);
-                    if (depositStatus == ATM.OVERFLOW) {
+                } else if (status == ATM.SUCCESS) {
+                	int newDeposit = transferAccount.deposit(amount);
+                    if (newDeposit == ATM.OVERFLOW) {
                         System.out.println("\nTransfer rejected. Amount would cause destination balance to exceed $999,999,999,999.99.\n");
-                    } else if (depositStatus == ATM.SUCCESS) {
+                    } else if (newDeposit == ATM.SUCCESS) {
                     	System.out.println("\nTransfer accepted.\n");
                         bank.update(activeAccount);
                         bank.save();
