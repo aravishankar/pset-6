@@ -15,6 +15,8 @@ public class ATM {
     public static final int LOGOUT = 5;
     public static final int FIRST_NAME_WIDTH = 20;
     public static final int LAST_NAME_WIDTH = 30;
+    
+    public static final int CREATE_ACCOUNT_VALUE = -2;
 
     public static final int INVALID = 0;
     public static final int INSUFFICIENT = 1;
@@ -33,78 +35,8 @@ public class ATM {
                 in.close();
     		}
         }
-        
-        public long checkAccountNo(String accountNoString) {
-        	
-        	long accountNo;
-        	
-        	if (accountNoString.charAt(0) == '+') {
-            	
-                accountNo = -2;
-                
-            } else if (Long.parseLong(accountNoString) == -1) {
-            	
-                accountNo = -1;
-                
-            } else if (accountNoString.matches("[0-9]+")) {
-            	
-                accountNo = Long.parseLong(accountNoString);
-                
-            } else if (accountNoString.isEmpty()) {
-        		
-                accountNo = 0;
-                
-            } else if (accountNoString.matches("-")) {
-            	
-                accountNo = 0;
-                
-            } else if (!(accountNoString.matches("[0-9]+")) && !(accountNoString.contains("-")) ) {
-            	
-                accountNo = 0;
-                
-            } else {
-            	
-                accountNo = 0;
-                
-            }
-        	
-        	return accountNo;
-        	
-        }
-        
-        public int checkPin(String pinString) {
-        	
-        	int pin;
-        	
-        	if (Integer.parseInt(pinString) == -1) {
-            	
-                pin = -1;
-                
-            } else if (pinString.matches("[0-9]+")) {
-            	
-                pin = Integer.parseInt(pinString);
-                
-            } else if (pinString.isEmpty()) {
-        		
-                pin = 0;
-                
-            }  else if (pinString.matches("-")) {
-            	
-                pin = 0;
-                
-            } else if (!(pinString.matches("[0-9]+")) && !(pinString.contains("-")) ) {
-            	
-                pin = 0;
-                
-            }  else {
-            	
-                pin = 0;
-                
-            }
-        	
-        	return pin;
-        }
 
+        
         public void startup() {
         	
         	long accountNo;
@@ -119,7 +51,7 @@ public class ATM {
                 
                 accountNo = checkAccountNo(accountNoString);
 
-                if (accountNo != -2) {
+                if (accountNo != CREATE_ACCOUNT_VALUE) {
                 	
                     System.out.print("PIN        : ");
                     String tempPin = in.nextLine();
@@ -138,6 +70,7 @@ public class ATM {
             
         }
         
+        
         public void createAccount() {
         	
         	int pin = 0;
@@ -146,12 +79,12 @@ public class ATM {
         	
         	String firstName = 	in.nextLine();
         	
-        	if (firstName != null && firstName.length() <= 20 && firstName.length() > 0) {
+        	if (firstName != null && firstName.length() <= FIRST_NAME_WIDTH && firstName.length() > 0) {
         		
         		System.out.print("Last Name: ");
             	String lastName = in.nextLine();
             	
-            	if (lastName != null && lastName.length() <= 30 && lastName.length() > 0) {
+            	if (lastName != null && lastName.length() <= LAST_NAME_WIDTH && lastName.length() > 0) {
             		
             		System.out.print("Pin: ");     
             		String pinPlaceHolder = in.nextLine();
@@ -198,6 +131,79 @@ public class ATM {
         	
         }
         
+        
+        public long checkAccountNo(String accountNoString) {
+        	
+        	long accountNo;
+        	
+        	if (accountNoString.charAt(0) == '+') {
+            	
+                accountNo = -2;
+                
+            } else if (Long.parseLong(accountNoString) == -1) {
+            	
+                accountNo = -1;
+                
+            } else if (accountNoString.matches("[0-9]+")) {
+            	
+                accountNo = Long.parseLong(accountNoString);
+                
+            } else if (accountNoString.isEmpty()) {
+        		
+                accountNo = 0;
+                
+            } else if (accountNoString.matches("-")) {
+            	
+                accountNo = 0;
+                
+            } else if (!(accountNoString.matches("[0-9]+")) && !(accountNoString.contains("-")) ) {
+            	
+                accountNo = 0;
+                
+            } else {
+            	
+                accountNo = 0;
+                
+            }
+        	
+        	return accountNo;
+        	
+        }
+        
+        
+        public int checkPin(String pinString) {
+        	
+        	int pin;
+        	
+        	if (Integer.parseInt(pinString) == -1) {
+            	
+                pin = -1;
+                
+            } else if (pinString.matches("[0-9]+")) {
+            	
+                pin = Integer.parseInt(pinString);
+                
+            } else if (pinString.isEmpty()) {
+        		
+                pin = 0;
+                
+            }  else if (pinString.matches("-")) {
+            	
+                pin = 0;
+                
+            } else if (!(pinString.matches("[0-9]+")) && !(pinString.contains("-")) ) {
+            	
+                pin = 0;
+                
+            }  else {
+            	
+                pin = 0;
+                
+            }
+        	
+        	return pin;
+        }
+        
 
         public boolean isValidLogin(long accountNo, int pin) {
         	
@@ -212,6 +218,7 @@ public class ATM {
             return valid;
             
         }
+        
 
         public int getSelection() {
         	
@@ -229,6 +236,7 @@ public class ATM {
             }
             
         }
+        
         
         public void selection(long accountNo, int pin) {
         	
@@ -270,12 +278,14 @@ public class ATM {
         	
         }
 
+        
         public void showBalance() {
         	
             System.out.println("\nCurrent balance: " + activeAccount.getBalance() + "\n");
             
         }
 
+        
         public void deposit() {
         	
         	double amount = 0;
@@ -319,6 +329,7 @@ public class ATM {
     		
         }
 
+        
         public void withdraw() {
         	
             double amount = 0;
@@ -356,8 +367,10 @@ public class ATM {
                 System.out.println("\nWithdrawal rejected. Enter vaild amount.\n");
                 
             }
+            
         }
 
+        
         public void transfer() {
         	
         	boolean isValid = true;
@@ -369,7 +382,9 @@ public class ATM {
             double amount = in.nextDouble();
             
             if (bank.getAccount(secondAccountNo) == null) {
+            	
             	isValid = false;
+            	
             }
             
             if (isValid) {
@@ -400,16 +415,22 @@ public class ATM {
                     } else if (newDeposit == ATM.SUCCESS) {
                     	
                     	System.out.println("\nTransfer accepted.\n");
+                    	
                         bank.update(activeAccount);
                         bank.save();
                         
                     }
+                    
                 }
+                
             } else {
+            	
             	System.out.println("\nTransfer rejected. Destination account not found.\n");
+            	
             }
         }
 
+        
         public void shutdown() {
             if (in != null) {
                 in.close();
