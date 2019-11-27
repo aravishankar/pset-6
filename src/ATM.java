@@ -15,6 +15,8 @@ public class ATM {
     public static final int LOGOUT = 5;
     public static final int FIRST_NAME_WIDTH = 20;
     public static final int LAST_NAME_WIDTH = 30;
+    public static final int PIN_LOWER_THRESHOLD = 1000;
+    public static final int PIN_UPPER_THRESHOLD = 9999;
     
     public static final int CREATE_ACCOUNT_VALUE = -2;
 
@@ -99,7 +101,7 @@ public class ATM {
                 		
                 	}
                 	
-                	if (pin >= 1000 && pin <= 9999) {
+                	if (pin >= PIN_LOWER_THRESHOLD && pin <= PIN_UPPER_THRESHOLD) {
                 		
                 		newUser = new User(firstName, lastName);
                        	
@@ -229,10 +231,14 @@ public class ATM {
             System.out.println("[5] Logout");
 
             if (in.hasNextInt()) {
+            	
             	return in.nextInt();
+            	
             } else {
+            	
                 in.nextLine();
                 return 6;
+                
             }
             
         }
@@ -289,17 +295,17 @@ public class ATM {
         public void deposit() {
         	
         	double amount = 0;
-            boolean validAmount = true;
+            boolean isValid = true;
             
     		System.out.print("\nEnter amount : ");
     		try {
     			amount = in.nextDouble();
     		} catch(Exception e) {
-    			validAmount = false;
+    			isValid = false;
     			in.nextLine();
     		}
 
-    		if (validAmount) {
+    		if (isValid) {
     			
     			int status = activeAccount.deposit(amount);
     			
@@ -333,17 +339,17 @@ public class ATM {
         public void withdraw() {
         	
             double amount = 0;
-            boolean validAmount = true;
+            boolean isValid = true;
             
             System.out.print("\nEnter amount : ");
             try {
                 amount = in.nextDouble();
             } catch (Exception e) {
-                validAmount = false;
+                isValid = false;
                 in.nextLine();
             }
             
-            if (validAmount) {
+            if (isValid) {
             	
                 int status = activeAccount.withdraw(amount);
                 if (status == ATM.INVALID) {
@@ -376,12 +382,12 @@ public class ATM {
         	boolean isValid = true;
         	
             System.out.print("\nEnter the other account no. : ");
-            long secondAccountNo = in.nextLong();
+            long otherAccountNo = in.nextLong();
             
             System.out.print("Enter amount                : ");
             double amount = in.nextDouble();
             
-            if (bank.getAccount(secondAccountNo) == null) {
+            if (bank.getAccount(otherAccountNo) == null) {
             	
             	isValid = false;
             	
@@ -389,10 +395,10 @@ public class ATM {
             
             if (isValid) {
             	
-            	BankAccount transferAccount = bank.getAccount(secondAccountNo);
+            	BankAccount otherAccount = bank.getAccount(otherAccountNo);
             	int status = activeAccount.withdraw(amount);
             	
-                if (activeAccount == transferAccount) {
+                if (activeAccount == otherAccount) {
                 	
                     System.out.println("\nTransfer rejected. Destination account matches origin.\n");
                     
@@ -406,7 +412,7 @@ public class ATM {
                     
                 } else if (status == ATM.SUCCESS) {
                 	
-                	int newDeposit = transferAccount.deposit(amount);
+                	int newDeposit = otherAccount.deposit(amount);
                 	
                     if (newDeposit == ATM.OVERFLOW) {
                     	
