@@ -263,7 +263,7 @@ public class ATM {
                         case TRANSFER: transfer(); break;
                         case LOGOUT: bank.update(activeAccount); bank.save(); validLogin = false; in.nextLine(); break;
                         default: System.out.println("\nInvalid selection.\n"); break;
-                        
+
                     }
                     
                 }
@@ -329,7 +329,8 @@ public class ATM {
                 
     		} else {
     			
-                System.out.println("\nDeposit rejected. Amount would cause destination balance to exceed $999,999,999,999.99.\n");
+                System.out.println("\nDeposit rejected. Amount would cause "
+                  + "destination balance to exceed $999,999,999,999.99.\n");
     			
     		}
     		
@@ -416,7 +417,8 @@ public class ATM {
                 	
                     if (newDeposit == ATM.OVERFLOW) {
                     	
-                        System.out.println("\nTransfer rejected. Amount would cause destination balance to exceed $999,999,999,999.99.\n");
+                        System.out.println("\nTransfer rejected. Amount would"
+                          + " cause destination balance to exceed $999,999,999,999.99.\n");
                         
                     } else if (newDeposit == ATM.SUCCESS) {
                     	
